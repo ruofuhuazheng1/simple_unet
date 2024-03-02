@@ -84,8 +84,8 @@ class UNet(nn.Module):
 
        
         
-    def forward(self,input_tensor):
-        conv1 = self.conv_block1(input_tensor)
+    def forward(self,grayimg):
+        conv1 = self.conv_block1(grayimg)
         conv2 = self.conv_block2(self.downsampler1(conv1))
         conv3 = self.conv_block3(self.downsampler2(conv2))
         conv4 = self.conv_block4(self.downsampler3(conv3))
@@ -95,8 +95,10 @@ class UNet(nn.Module):
         upsample2 = self.conv_block7(self.upsampler2(upsample1,conv3))
         upsample3 = self.conv_block8(self.upsampler3(upsample2,conv2))
         upsample4 = self.conv_block9(self.upsampler4(upsample3,conv1))
+        face_mask_pre = self.threshold(self.output_layer(upsample4))
+        tougue_mask_pre = self.threshold(self.output_layer(upsample4))
         
-        return self.threshold(self.output_layer(upsample4))
+        return face_mask_pre,tougue_mask_pre
 
 
          
