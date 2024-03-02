@@ -79,7 +79,7 @@ class UNet(nn.Module):
         self.upsampler4=UpSampler(128)
         self.conv_block9=ConvolutionalBlock(128,64)
         
-        self.output_layer = nn.Conv2d(64,3,3,1,1)
+        self.output_layer = nn.Conv2d(64,1,3,1,1)
         self.threshold = nn.Sigmoid()
 
        
